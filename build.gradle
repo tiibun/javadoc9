@@ -5,16 +5,15 @@ plugins {
 
 ext.compiledStylesheet = "build/tmp/css/stylesheet.css"
 
-// Require gradle npm_install before cssCompile.
-// But it takes a long time, so not dependsOn.
-
-task cssCompile(type: NpmTask) {
-    args = ["run", "postcss", "--",
-            "src/main/resources/custom.css",
-            "-o", compiledStylesheet]
+task cssCompile(type: NpmTask, dependsOn: npm_install) {
+    def source = "src/main/resources/custom.css"
+    inputs.file(source)
+    outputs.file(compiledStylesheet)
+    args = ["run", "postcss", "--", source, "-o", compiledStylesheet]
 }
 
 javadoc {
+    dependsOn cssCompile
     title = "fun-tech meetup #5"
     options {
         overview = "src/main/resources/overview.html"
@@ -22,4 +21,12 @@ javadoc {
         header = new File("src/main/resources/header.html").text
     }
 }
-javadoc.dependsOn cssCompile
+
+task serve {
+    doLast {
+        SimpleHttpFileServerFactory factory = new SimpleHttpFileServerFactory()
+        HttpFileServer server = factory.start(new File(buildDir, "docs/javadoc"), 5000)
+        println("Server Started on 5000 ctrc+c to kill it")
+        java.lang.Thread.sleep(Long.MAX_VALUE);
+    }
+}
