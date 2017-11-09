@@ -1,0 +1,25 @@
+plugins {
+    id "java"
+    id "com.moowork.node" version "1.2.0"
+}
+
+ext.compiledStylesheet = "build/tmp/css/stylesheet.css"
+
+// Require gradle npm_install before cssCompile.
+// But it takes a long time, so not dependsOn.
+
+task cssCompile(type: NpmTask) {
+    args = ["run", "postcss", "--",
+            "src/main/resources/custom.css",
+            "-o", compiledStylesheet]
+}
+
+javadoc {
+    title = "fun-tech meetup #5"
+    options {
+        overview = "src/main/resources/overview.html"
+        stylesheetFile = new File(compiledStylesheet)
+        header = new File("src/main/resources/header.html").text
+    }
+}
+javadoc.dependsOn cssCompile
