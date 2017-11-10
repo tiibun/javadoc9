@@ -1,5 +1,6 @@
 /**
- * まずはJava9の<a href="https://docs.oracle.com/javase/9/docs/toc.htm">API Documentation</a>を見てみよう
+ * まずはJava9の<a href="https://docs.oracle.com/javase/9/docs/toc.htm">API Documentation</a>を見てみよう。<br>
+ * なお、Java8は<a href="https://docs.oracle.com/javase/8/docs/api/index.html">こちら</a>
  */
 module Javadoc.In.JDK9 {
     exports _1;
