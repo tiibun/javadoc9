@@ -11,4 +11,5 @@ module Javadoc.In.JDK9 {
     exports _6;
     exports _7;
     exports _8;
+    exports _9;
 }
